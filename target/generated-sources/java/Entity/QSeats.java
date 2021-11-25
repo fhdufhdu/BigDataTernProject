@@ -28,7 +28,7 @@ public class QSeats extends EntityPathBase<Seats> {
 
     public final StringPath seatRow = createString("seatRow");
 
-    public final StringPath Status = createString("Status");
+    public final BooleanPath status = createBoolean("status");
 
     public final QTheaters theater;
 

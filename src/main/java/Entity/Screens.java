@@ -30,7 +30,7 @@ public class Screens {
     private Movies screenMovie;
 
     @OneToOne
-    @JoinColumn(name="TICKET_ID", nullable = false)
+    @JoinColumn(name="TICKET_ID")
     private Tickets tickets;
 
     @Embedded

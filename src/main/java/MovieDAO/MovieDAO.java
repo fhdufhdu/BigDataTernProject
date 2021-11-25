@@ -29,72 +29,7 @@ public class MovieDAO {
     public void showMovieWithWorkerId(int id) {
         try {
             tx.begin();
-//            Movies movie = new Movies();
-//            movie.setGenre(Genre.로맨스);
-//            movie.setName("한 여름 밤의 꿈");
-//            movie.setOpeningDate(LocalDateTime.of(2021, 12, 24, 11, 30));
-//            movie.setModifiedDate(LocalDateTime.of(2021, 11, 24, 11, 30));
-//            movie.setRunningTime(130);
-//            movie.setCreatedDate(LocalDateTime.of(2021, 10, 21, 13, 06));
-//
-//            Actors actor = new Actors(173, "hsoh0423");
-//            actor.setName("오한석");
-//            actor.setBirth(Date.valueOf("1999-04-23"));
-//
-//            Directors director = new Directors();
-//            director.setName("한석");
-//            director.setBirth(Date.valueOf("1998-04-22"));
-//            director.setBirthPlace("경기도 용인시");
-//
-//            MovieWorker movieWorker = new MovieWorker();
-//            movieWorker.setMovieWorkerMovie(movie);
-//            movieWorker.setWorker(actor);
-//            movieWorker.setRoleType(RoleType.주연);
-//
-//            MovieWorker movieWorker2 = new MovieWorker();
-//            movieWorker2.setMovieWorkerMovie(movie);
-//            movieWorker2.setWorker(director);
-//
-//            Movies movie2 = new Movies();
-//            movie2.setGenre(Genre.스릴러);
-//            movie2.setName("한 여름 밤의 공포");
-//            movie2.setOpeningDate(LocalDateTime.now());
-//            movie2.setModifiedDate(LocalDateTime.of(2021, 10, 24, 11, 30));
-//            movie2.setRunningTime(139);
-//            movie2.setCreatedDate(LocalDateTime.of(2021, 9, 21, 13, 06));
-//
-//            Actors actor3 = new Actors(173, "hsoh04232");
-//            actor3.setName("오한석2");
-//            actor3.setBirth(Date.valueOf("1997-04-23"));
-//
-//            Directors director3 = new Directors();
-//            director3.setName("한석2");
-//            director3.setBirth(Date.valueOf("1997-04-22"));
-//            director3.setBirthPlace("경상북도 구미시");
-//
-//            MovieWorker movieWorker3 = new MovieWorker();
-//            movieWorker3.setMovieWorkerMovie(movie);
-//            movieWorker3.setWorker(actor3);
-//            movieWorker3.setRoleType(RoleType.조연);
-//
-//            MovieWorker movieWorker4 = new MovieWorker();
-//            movieWorker4.setMovieWorkerMovie(movie2);
-//            movieWorker4.setWorker(director3);
-//
-//            em.persist(movie);
-//            em.persist(movie2);
-//            em.persist(actor);
-//            em.persist(actor3);
-//            em.persist(director);
-//            em.persist(director3);
-//            em.persist(movieWorker);
-//            em.persist(movieWorker2);
-//            em.persist(movieWorker3);
-//            em.persist(movieWorker4);
-//
-//            em.flush();
-//            em.clear();
-
+            //insertMovieActorDirector()
             JPAQueryFactory query = new JPAQueryFactory(em);
             QMovieWorker qMovieWorker = new QMovieWorker("mw");
             QMovies qMovies = new QMovies("m");
@@ -135,7 +70,73 @@ public class MovieDAO {
             tx.rollback();
         }
     }
+    public void insertMovieActorDirector(){
+        Movies movie0 = new Movies();
+        movie0.setGenre(Genre.로맨스);
+        movie0.setName("한 여름 밤의 꿈");
+        movie0.setOpeningDate(LocalDateTime.of(2021, 12, 24, 11, 30));
+        movie0.setModifiedDate(LocalDateTime.of(2021, 11, 24, 11, 30));
+        movie0.setRunningTime(130);
+        movie0.setCreatedDate(LocalDateTime.of(2021, 10, 21, 13, 6));
 
+        Actors actor = new Actors(173, "hsoh0423");
+        actor.setName("오한석");
+        actor.setBirth(Date.valueOf("1999-04-23"));
+
+        Directors director = new Directors();
+        director.setName("한석");
+        director.setBirth(Date.valueOf("1998-04-22"));
+        director.setBirthPlace("경기도 용인시");
+
+        MovieWorker movieWorker = new MovieWorker();
+        movieWorker.setMovieWorkerMovie(movie0);
+        movieWorker.setWorker(actor);
+        movieWorker.setRoleType(RoleType.주연);
+
+        MovieWorker movieWorker2 = new MovieWorker();
+        movieWorker2.setMovieWorkerMovie(movie0);
+        movieWorker2.setWorker(director);
+
+        Movies movie2 = new Movies();
+        movie2.setGenre(Genre.스릴러);
+        movie2.setName("한 여름 밤의 공포");
+        movie2.setOpeningDate(LocalDateTime.now());
+        movie2.setModifiedDate(LocalDateTime.of(2021, 10, 24, 11, 30));
+        movie2.setRunningTime(139);
+        movie2.setCreatedDate(LocalDateTime.of(2021, 9, 21, 13, 6));
+
+        Actors actor3 = new Actors(173, "hsoh04232");
+        actor3.setName("오한석2");
+        actor3.setBirth(Date.valueOf("1997-04-23"));
+
+        Directors director3 = new Directors();
+        director3.setName("한석2");
+        director3.setBirth(Date.valueOf("1997-04-22"));
+        director3.setBirthPlace("경상북도 구미시");
+
+        MovieWorker movieWorker3 = new MovieWorker();
+        movieWorker3.setMovieWorkerMovie(movie0);
+        movieWorker3.setWorker(actor3);
+        movieWorker3.setRoleType(RoleType.조연);
+
+        MovieWorker movieWorker4 = new MovieWorker();
+        movieWorker4.setMovieWorkerMovie(movie2);
+        movieWorker4.setWorker(director3);
+
+        em.persist(movie0);
+        em.persist(movie2);
+        em.persist(actor);
+        em.persist(actor3);
+        em.persist(director);
+        em.persist(director3);
+        em.persist(movieWorker);
+        em.persist(movieWorker2);
+        em.persist(movieWorker3);
+        em.persist(movieWorker4);
+
+        em.flush();
+        em.clear();
+    }
     public void findMovieWithWorkerOpeningDateRunningTime(Directors director, Actors actor, LocalDateTime openingDate) {
         try {
             tx.begin();
@@ -172,7 +173,7 @@ public class MovieDAO {
                     .from(qMovies)
                     .join(qMovies.workers, qMovieWorker).fetchJoin()
                     .join(qMovieWorker.worker, qWorkers).fetchJoin()
-                    .offset(1* (page-1))
+                    .offset(2 * (page-1))
                     .limit(2)
                     .fetch();
             for (Movies movie : movies) {
@@ -206,17 +207,127 @@ public class MovieDAO {
                 tx.rollback();
             }
         }
-        public void test () {
+        public void showMovieTime () {
             try {
 
                 tx.begin();
-                String query = "SELECT DISTINCT mw, m, w FROM MovieWorker mw JOIN FETCH mw.worker w JOIN FETCH mw.movie m WHERE m.id in (SELECT movie.id FROM Movies)";
 
-                List<Object> result = em.createQuery(query).getResultList();
+                //insertTheater();
+
+                JPAQueryFactory query = new JPAQueryFactory(em);
+                QScreens  qScreens= new QScreens("screen");
+                QTheaters qTheaters=  new QTheaters("theater");
+                QMovies qMovies = new QMovies("movie");
+                QSeats qSeats = new QSeats("seats");
+                QPeriod qPeriod = new QPeriod("qPeriod");
+                List<Screens> showInfo = query.selectDistinct(qScreens)
+                        .from(qScreens)
+                        .join(qScreens.screenMovie, qMovies).fetchJoin()
+                        .join(qScreens.theater, qTheaters).fetchJoin()
+                        .join(qTheaters.seats, qSeats).where(qSeats.status.eq(Boolean.TRUE)).fetchJoin()
+                        .fetch();
+
+                for(Screens result: showInfo)
+                {
+                    System.out.println(result.getScreenMovie().getName());
+                    System.out.println(result.getPeriod().getStartTime());
+                    System.out.println(result.getPeriod().getEndTime());
+
+                    List<Seats> resultSeats = result.getTheater().getSeats();
+                    for(Seats resultSeat: resultSeats)
+                    {
+                        System.out.println(resultSeat.getSeatRow() + " " + resultSeat.getSeatColumn());
+                    }
+                }
                 tx.commit();
             } catch (Exception e) {
                 e.printStackTrace();
                 tx.rollback();
             }
+        }
+        public void insertTheater(){
+
+            Movies movie = new Movies();
+            movie.setGenre(Genre.스릴러);
+            movie.setName("한 여름 밤의 추격전");
+            movie.setOpeningDate(LocalDateTime.of(2021, 12, 27, 12, 30));
+            movie.setModifiedDate(LocalDateTime.of(2021, 11, 15, 22, 30));
+            movie.setRunningTime(180);
+            movie.setCreatedDate(LocalDateTime.of(2021, 10, 21, 17, 6));
+
+            Theaters theaters = new Theaters();
+            theaters.setName("1관");
+            theaters.setFloor("1층");
+
+            Seats seats = new Seats();
+            seats.setSeatRow("A");
+            seats.setSeatColumn("1");
+            seats.setStatus(Boolean.TRUE);
+            seats.setTheater(theaters);
+
+            Seats seats2 = new Seats();
+            seats2.setSeatRow("A");
+            seats2.setSeatColumn("2");
+            seats2.setStatus(Boolean.TRUE);
+            seats2.setTheater(theaters);
+
+            Seats seats3 = new Seats();
+            seats3.setSeatRow("B");
+            seats3.setSeatColumn("1");
+            seats3.setStatus(Boolean.TRUE);
+            seats3.setTheater(theaters);
+
+            Seats seats4 = new Seats();
+            seats4.setSeatRow("B");
+            seats4.setSeatColumn("2");
+            seats4.setStatus(Boolean.TRUE);
+            seats4.setTheater(theaters);
+
+            Seats seats5 = new Seats();
+            seats5.setSeatRow("C");
+            seats5.setSeatColumn("1");
+            seats5.setStatus(Boolean.TRUE);
+            seats5.setTheater(theaters);
+
+            Seats seats6 = new Seats();
+            seats6.setSeatRow("C");
+            seats6.setSeatColumn("2");
+            seats6.setStatus(Boolean.FALSE);
+            seats6.setTheater(theaters);
+
+            Seats seats7 = new Seats();
+            seats7.setSeatRow("D");
+            seats7.setSeatColumn("1");
+            seats7.setStatus(Boolean.TRUE);
+            seats7.setTheater(theaters);
+
+            Seats seats8 = new Seats();
+            seats8.setSeatRow("D");
+            seats8.setSeatColumn("2");
+            seats8.setStatus(Boolean.FALSE);
+            seats8.setTheater(theaters);
+
+            Period period = new Period();
+            period.setStartTime(LocalDateTime.now());
+            period.setEndTime(LocalDateTime.now());
+
+            Screens screens = new Screens();
+            screens.setScreenMovie(movie);
+            screens.setTheater(theaters);
+            screens.setPeriod(period);
+
+            em.persist(movie);
+            em.persist(theaters);
+            em.persist(seats);
+            em.persist(seats2);
+            em.persist(seats3);
+            em.persist(seats4);
+            em.persist(seats5);
+            em.persist(seats6);
+            em.persist(seats7);
+            em.persist(seats8);
+            em.persist(screens);
+            em.flush();
+            em.clear();
         }
     }

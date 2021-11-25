@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -22,6 +23,8 @@ public class QTheaters extends EntityPathBase<Theaters> {
     public final StringPath floor = createString("floor");
 
     public final StringPath name = createString("name");
+
+    public final ListPath<Seats, QSeats> seats = this.<Seats, QSeats>createList("seats", Seats.class, QSeats.class, PathInits.DIRECT2);
 
     public final NumberPath<Integer> theaterId = createNumber("theaterId", Integer.class);
 

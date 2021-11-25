@@ -95,29 +95,40 @@ public class MovieDAO {
 //            em.flush();
 //            em.clear();
 
-            String query = "SELECT m, w FROM Movies m join fetch m.workers mw join mw.worker w WHERE m.id=:movieID";
-            List<Object> resultMovie = em.createQuery(query).setParameter("movieID", 1).getResultList();
-            System.out.println(resultMovie.get(0));
+            JPAQueryFactory query = new JPAQueryFactory(em);
+            QMovieWorker qMovieWorker = new QMovieWorker("mw");
+            QMovies qMovies = new QMovies("m");
+            QMovies subQMovies = new QMovies("sumM");
+            QWorkers qWorkers = new QWorkers("w");
+            List<Movies> movies = query.selectDistinct(qMovies)
+                    .from(qMovies)
+                    .join(qMovies.workers, qMovieWorker).fetchJoin()
+                    .join(qMovieWorker.worker, qWorkers).fetchJoin()
+                    .where(qMovies.movieId.eq(id))
+                    .fetch();
+            for (Movies movie : movies) {
+                System.out.println(movie.getName());
 
-//            List<MovieWorker> resultWorkers = resultMovie.getWorkers();
-//            for(MovieWorker worker :resultWorkers) {
-//                if(worker.getRoleType() != null) {
-//                    System.out.println(worker.getWorker());
-//                    Actors reActors = (Actors) worker.getWorker();
-//                    System.out.println(reActors.getName());
-//                    System.out.println(reActors.getBirth());
-//                    System.out.println(reActors.getHeight());
-//                    System.out.println(reActors.getInstagramId());
-//                    System.out.println(worker.getRoleType());
-//                }
-//                else{
-//                    Workers reDirectors = (Workers) worker.getWorker();
-//                    System.out.println(reDirectors.getName());
-//                    System.out.println(reDirectors.getBirth());
-//                    System.out.println(reDirectors.getBirthPlace());
-//                }
-//                System.out.println();
-//            }
+                List<MovieWorker> resultWorkers = movie.getWorkers();
+                for (MovieWorker worker : resultWorkers) {
+                    if (worker.getRoleType() != null) {
+                        Actors reActors = (Actors) worker.getWorker();
+                        System.out.println(reActors.getName());
+                        System.out.println(reActors.getBirth());
+                        System.out.println(reActors.getHeight());
+                        System.out.println(reActors.getInstagramId());
+                        System.out.println(worker.getRoleType());
+                    } else {
+                        Directors reDirectors = (Directors) worker.getWorker();
+                        System.out.println(reDirectors.getName());
+                        System.out.println(reDirectors.getBirth());
+                        System.out.println(reDirectors.getBirthPlace());
+                    }
+                    System.out.println();
+
+                }
+
+            }
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,16 +139,17 @@ public class MovieDAO {
     public void findMovieWithWorkerOpeningDateRunningTime(Directors director, Actors actor, LocalDateTime openingDate) {
         try {
             tx.begin();
+
             JPAQueryFactory query = new JPAQueryFactory(em);
             QMovieWorker qMovieWorker = new QMovieWorker("mw");
             QMovies qMovies = new QMovies("m");
             QWorkers qWorkers = new QWorkers("w");
             QWorkers qWorkers2 = new QWorkers("w2");
-            List<Movies> movies = query.selectDistinct(qMovies)
-                    .from(qMovieWorker)
-                    .join(qMovieWorker.worker, qWorkers).where(qWorkers.name.contains(director.getName()))
-                    .join(qMovieWorker.worker, qWorkers2).where(qWorkers2.name.contains(actor.getName()))
-                    .join(qMovieWorker.movieWorkerMovie, qMovies).where(qMovies.openingDate.eq(openingDate)).fetch();
+
+            List<Movies> movies = query.selectFrom(qMovies)
+                    .join(qMovies.workers, qMovieWorker).where(qMovieWorker.worker.name.contains(director.getName()))
+                    .join(qMovies.workers, qMovieWorker).where(qMovieWorker.worker.name.contains(actor.getName()))
+                    .where(qMovies.openingDate.eq(openingDate)).fetch();
 
             System.out.println(movies.get(0).getName());
             tx.commit();

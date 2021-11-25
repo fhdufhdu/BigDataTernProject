@@ -27,7 +27,7 @@ public class Screens {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MOVIE_ID", nullable = false)
-    private Movies movie;
+    private Movies screenMovie;
 
     @OneToOne
     @JoinColumn(name="TICKET_ID", nullable = false)

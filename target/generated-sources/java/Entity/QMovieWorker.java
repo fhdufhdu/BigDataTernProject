@@ -22,9 +22,9 @@ public class QMovieWorker extends EntityPathBase<MovieWorker> {
 
     public static final QMovieWorker movieWorker = new QMovieWorker("movieWorker");
 
-    public final QMovies movie;
-
     public final NumberPath<Integer> movieWorkerId = createNumber("movieWorkerId", Integer.class);
+
+    public final QMovies movieWorkerMovie;
 
     public final EnumPath<RoleType> roleType = createEnum("roleType", RoleType.class);
 
@@ -48,7 +48,7 @@ public class QMovieWorker extends EntityPathBase<MovieWorker> {
 
     public QMovieWorker(Class<? extends MovieWorker> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.movie = inits.isInitialized("movie") ? new QMovies(forProperty("movie")) : null;
+        this.movieWorkerMovie = inits.isInitialized("movieWorkerMovie") ? new QMovies(forProperty("movieWorkerMovie")) : null;
         this.worker = inits.isInitialized("worker") ? new QWorkers(forProperty("worker")) : null;
     }
 

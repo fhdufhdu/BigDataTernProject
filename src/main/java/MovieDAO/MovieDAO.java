@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.sql.Date;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,15 +20,14 @@ public class MovieDAO {
     EntityManager em;
     EntityTransaction tx;
 
-    public MovieDAO(){
+    public MovieDAO() {
         emf = EMFactory.getInstance();
         em = emf.createEntityManager();
         tx = em.getTransaction();
     }
 
-    public void showMovieWithWorkerId(int id){
-        try
-        {
+    public void showMovieWithWorkerId(int id) {
+        try {
             tx.begin();
 //            Movies movie = new Movies();
 //            movie.setGenre(Genre.로맨스);
@@ -47,12 +47,12 @@ public class MovieDAO {
 //            director.setBirthPlace("경기도 용인시");
 //
 //            MovieWorker movieWorker = new MovieWorker();
-//            movieWorker.setMovie(movie);
+//            movieWorker.setMovieWorkerMovie(movie);
 //            movieWorker.setWorker(actor);
 //            movieWorker.setRoleType(RoleType.주연);
 //
 //            MovieWorker movieWorker2 = new MovieWorker();
-//            movieWorker2.setMovie(movie);
+//            movieWorker2.setMovieWorkerMovie(movie);
 //            movieWorker2.setWorker(director);
 //
 //            Movies movie2 = new Movies();
@@ -73,12 +73,12 @@ public class MovieDAO {
 //            director3.setBirthPlace("경상북도 구미시");
 //
 //            MovieWorker movieWorker3 = new MovieWorker();
-//            movieWorker3.setMovie(movie);
+//            movieWorker3.setMovieWorkerMovie(movie);
 //            movieWorker3.setWorker(actor3);
 //            movieWorker3.setRoleType(RoleType.조연);
 //
 //            MovieWorker movieWorker4 = new MovieWorker();
-//            movieWorker4.setMovie(movie2);
+//            movieWorker4.setMovieWorkerMovie(movie2);
 //            movieWorker4.setWorker(director3);
 //
 //            em.persist(movie);
@@ -95,53 +95,38 @@ public class MovieDAO {
 //            em.flush();
 //            em.clear();
 
-            String query = "SELECT DISTINCT mw, w, m FROM MovieWorker mw JOIN FETCH mw.worker w JOIN FETCH mw.movie m WHERE m.id=:movieID";
+            String query = "SELECT m, w FROM Movies m join fetch m.workers mw join mw.worker w WHERE m.id=:movieID";
+            List<Object> resultMovie = em.createQuery(query).setParameter("movieID", 1).getResultList();
+            System.out.println(resultMovie.get(0));
 
-            List<Object> result= em.createQuery(query).setParameter("movieID", 1).getResultList();
-            int count = 0;
-            for(Object o:result){
-                MovieWorker resultMovie = (MovieWorker)o;
-                if (count == 0){
-                    count ++;
-                    Movies reMovie = resultMovie.getMovie();
-                    System.out.println(reMovie.getName());
-                    System.out.println(reMovie.getGenre());
-                    System.out.println(reMovie.getOpeningDate());
-                    System.out.println(reMovie.getRunningTime());
-                    System.out.println(reMovie.getCreatedDate());
-                    System.out.println(reMovie.getModifiedDate());
-                    System.out.println();
-
-                }
-                if(resultMovie.getRoleType() != null) {
-                    Actors reActors = (Actors) resultMovie.getWorker();
-                    System.out.println(reActors.getName());
-                    System.out.println(reActors.getBirth());
-                    System.out.println(reActors.getHeight());
-                    System.out.println(reActors.getInstagramId());
-                    System.out.println(resultMovie.getRoleType());
-                    System.out.println();
-                }
-                else{
-                    Directors reDirectors = (Directors) resultMovie.getWorker();
-                    System.out.println(reDirectors.getName());
-                    System.out.println(reDirectors.getBirth());
-                    System.out.println(reDirectors.getBirthPlace());
-                    System.out.println();
-                }
-            }
+//            List<MovieWorker> resultWorkers = resultMovie.getWorkers();
+//            for(MovieWorker worker :resultWorkers) {
+//                if(worker.getRoleType() != null) {
+//                    System.out.println(worker.getWorker());
+//                    Actors reActors = (Actors) worker.getWorker();
+//                    System.out.println(reActors.getName());
+//                    System.out.println(reActors.getBirth());
+//                    System.out.println(reActors.getHeight());
+//                    System.out.println(reActors.getInstagramId());
+//                    System.out.println(worker.getRoleType());
+//                }
+//                else{
+//                    Workers reDirectors = (Workers) worker.getWorker();
+//                    System.out.println(reDirectors.getName());
+//                    System.out.println(reDirectors.getBirth());
+//                    System.out.println(reDirectors.getBirthPlace());
+//                }
+//                System.out.println();
+//            }
             tx.commit();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
         }
     }
 
-    public void findMovieWithWorkerOpeningDateRunningTime(Directors director, Actors actor, LocalDateTime openingDate){
-        try
-        {
+    public void findMovieWithWorkerOpeningDateRunningTime(Directors director, Actors actor, LocalDateTime openingDate) {
+        try {
             tx.begin();
             JPAQueryFactory query = new JPAQueryFactory(em);
             QMovieWorker qMovieWorker = new QMovieWorker("mw");
@@ -152,48 +137,17 @@ public class MovieDAO {
                     .from(qMovieWorker)
                     .join(qMovieWorker.worker, qWorkers).where(qWorkers.name.contains(director.getName()))
                     .join(qMovieWorker.worker, qWorkers2).where(qWorkers2.name.contains(actor.getName()))
-                    .join(qMovieWorker.movie, qMovies).where(qMovies.openingDate.eq(openingDate)).fetch();
+                    .join(qMovieWorker.movieWorkerMovie, qMovies).where(qMovies.openingDate.eq(openingDate)).fetch();
 
             System.out.println(movies.get(0).getName());
             tx.commit();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
         }
     }
 
-    public void findMovieByPaging(int page){
-        try
-        {
-
-            tx.begin();
-            JPAQueryFactory query = new JPAQueryFactory(em);
-            QMovieWorker qMovieWorker = new QMovieWorker("mw");
-            QMovies qMovies = new QMovies("m");
-            QMovies subQMovies = new QMovies("sumM");
-            QWorkers qWorkers = new QWorkers("w");
-            List<Tuple> movies = query.selectDistinct(qMovies, qMovieWorker)
-                    .from(qMovieWorker, qMovies)
-                    .join(qMovieWorker.worker, qWorkers)
-                    .offset(0).limit(1)
-                    .fetch();
-            System.out.println(movies.size());
-            for (Tuple movie : movies) {
-                System.out.println(movie);
-//                Movies result = (Movies) movies.get(i).toArray()[0];
-//                System.out.println(result.getName());
-            }
-                tx.commit();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            tx.rollback();
-        }
-    }
-    public void test(){
+    public void findMovieByPaging(int page) {
         try {
 
             tx.begin();
@@ -203,18 +157,54 @@ public class MovieDAO {
             QMovies subQMovies = new QMovies("sumM");
             QWorkers qWorkers = new QWorkers("w");
             List<Movies> movies = query.selectDistinct(qMovies)
-                        .from(qMovies)
-                        .offset(0).limit(2).fetch();
-
+                    .from(qMovies)
+                    .join(qMovies.workers, qMovieWorker).fetchJoin()
+                    .join(qMovieWorker.worker, qWorkers).fetchJoin()
+                    .offset(1* (page-1))
+                    .limit(2)
+                    .fetch();
             for (Movies movie : movies) {
                 System.out.println(movie.getName());
+
+                List<MovieWorker> resultWorkers = movie.getWorkers();
+                for (MovieWorker worker : resultWorkers) {
+                    if (worker.getRoleType() != null) {
+                        Actors reActors = (Actors) worker.getWorker();
+                        System.out.println(reActors.getName());
+                        System.out.println(reActors.getBirth());
+                        System.out.println(reActors.getHeight());
+                        System.out.println(reActors.getInstagramId());
+                        System.out.println(worker.getRoleType());
+                    } else {
+                        Directors reDirectors = (Directors) worker.getWorker();
+                        System.out.println(reDirectors.getName());
+                        System.out.println(reDirectors.getBirth());
+                        System.out.println(reDirectors.getBirthPlace());
+                    }
+                    System.out.println();
+
+                }
+
             }
             tx.commit();
         }
         catch(Exception e)
-        {
-            e.printStackTrace();
-            tx.rollback();
+            {
+                e.printStackTrace();
+                tx.rollback();
+            }
+        }
+        public void test () {
+            try {
+
+                tx.begin();
+                String query = "SELECT DISTINCT mw, m, w FROM MovieWorker mw JOIN FETCH mw.worker w JOIN FETCH mw.movie m WHERE m.id in (SELECT movie.id FROM Movies)";
+
+                List<Object> result = em.createQuery(query).getResultList();
+                tx.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                tx.rollback();
+            }
         }
     }
-}

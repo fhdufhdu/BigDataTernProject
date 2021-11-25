@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,35 +17,31 @@ public class QDirectors extends EntityPathBase<Directors> {
 
     private static final long serialVersionUID = -1800308196L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QDirectors directors = new QDirectors("directors");
+
+    public final QWorkers _super = new QWorkers(this);
+
+    //inherited
+    public final DateTimePath<java.util.Date> birth = _super.birth;
 
     public final StringPath birthPlace = createString("birthPlace");
 
-    public final NumberPath<Integer> directorId = createNumber("directorId", Integer.class);
+    //inherited
+    public final StringPath name = _super.name;
 
-    public final QWorkers worker;
+    //inherited
+    public final NumberPath<Integer> workerId = _super.workerId;
 
     public QDirectors(String variable) {
-        this(Directors.class, forVariable(variable), INITS);
+        super(Directors.class, forVariable(variable));
     }
 
     public QDirectors(Path<? extends Directors> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QDirectors(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QDirectors(PathMetadata metadata, PathInits inits) {
-        this(Directors.class, metadata, inits);
-    }
-
-    public QDirectors(Class<? extends Directors> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.worker = inits.isInitialized("worker") ? new QWorkers(forProperty("worker")) : null;
+        super(Directors.class, metadata);
     }
 
 }

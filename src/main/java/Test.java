@@ -15,7 +15,7 @@ public class Test
     public static void main(String[] args)
     {
         MovieDAO movieDAO = new MovieDAO();
-//        movieDAO.showMovieWithWorkerId(1);
+       // movieDAO.showMovieWithWorkerId(1);
 //
 //        Actors actor = new Actors(173, "hsoh0423");
 //        actor.setName("오한석");
@@ -28,8 +28,8 @@ public class Test
 //
 //        LocalDateTime localDateTime = LocalDateTime.of(2021, 12, 24, 11, 30);
 //        movieDAO.findMovieWithWorkerOpeningDateRunningTime(director, actor, localDateTime );
-        movieDAO.findMovieByPaging(0);
-        //movieDAO.test();
+        movieDAO.findMovieByPaging(1);
+ //       movieDAO.test();
     }
 }
 

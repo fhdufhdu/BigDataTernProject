@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,4 +29,7 @@ public class Movies extends CMbaseEntity{
     private Genre genre;
     @Column(name = "RUNNING_TIME")
     private Integer runningTime;
+
+    @OneToMany(mappedBy = "movieWorkerMovie")
+    private List<MovieWorker> workers = new ArrayList<>();
 }

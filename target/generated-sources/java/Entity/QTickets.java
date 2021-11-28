@@ -22,7 +22,11 @@ public class QTickets extends EntityPathBase<Tickets> {
 
     public static final QTickets tickets = new QTickets("tickets");
 
+    public final BooleanPath isCanceled = createBoolean("isCanceled");
+
     public final QScreens screen;
+
+    public final ListPath<ScreenSeat, QScreenSeat> screenSeats = this.<ScreenSeat, QScreenSeat>createList("screenSeats", ScreenSeat.class, QScreenSeat.class, PathInits.DIRECT2);
 
     public final NumberPath<Integer> ticketId = createNumber("ticketId", Integer.class);
 
@@ -47,7 +51,7 @@ public class QTickets extends EntityPathBase<Tickets> {
     public QTickets(Class<? extends Tickets> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.screen = inits.isInitialized("screen") ? new QScreens(forProperty("screen"), inits.get("screen")) : null;
-        this.user = inits.isInitialized("user") ? new QUsers(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new QUsers(forProperty("user"), inits.get("user")) : null;
     }
 
 }

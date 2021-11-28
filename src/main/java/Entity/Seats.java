@@ -23,7 +23,9 @@ public class Seats {
     private String seatRow;
     @Column(nullable = false)
     private String seatColumn;
-    private String Status;
+
+    @Enumerated(EnumType.STRING)
+    private SeatStatus Status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="THEATER_ID", nullable = false)

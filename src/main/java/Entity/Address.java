@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name="ACTORS")
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable

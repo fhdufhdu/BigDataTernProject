@@ -14,7 +14,7 @@ import com.querydsl.core.types.dsl.PathInits;
  * QSceenSeat is a Querydsl query type for SceenSeat
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
-public class QSceenSeat extends EntityPathBase<SceenSeat> {
+public class QSceenSeat extends EntityPathBase<ScreenSeat> {
 
     private static final long serialVersionUID = 642238040L;
 
@@ -29,10 +29,10 @@ public class QSceenSeat extends EntityPathBase<SceenSeat> {
     public final QTickets ticket;
 
     public QSceenSeat(String variable) {
-        this(SceenSeat.class, forVariable(variable), INITS);
+        this(ScreenSeat.class, forVariable(variable), INITS);
     }
 
-    public QSceenSeat(Path<? extends SceenSeat> path) {
+    public QSceenSeat(Path<? extends ScreenSeat> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
@@ -41,10 +41,10 @@ public class QSceenSeat extends EntityPathBase<SceenSeat> {
     }
 
     public QSceenSeat(PathMetadata metadata, PathInits inits) {
-        this(SceenSeat.class, metadata, inits);
+        this(ScreenSeat.class, metadata, inits);
     }
 
-    public QSceenSeat(Class<? extends SceenSeat> type, PathMetadata metadata, PathInits inits) {
+    public QSceenSeat(Class<? extends ScreenSeat> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.seatId = inits.isInitialized("seatId") ? new QSeats(forProperty("seatId"), inits.get("seatId")) : null;
         this.ticket = inits.isInitialized("ticket") ? new QTickets(forProperty("ticket"), inits.get("ticket")) : null;

@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,37 +17,33 @@ public class QActors extends EntityPathBase<Actors> {
 
     private static final long serialVersionUID = 2143935881L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QActors actors = new QActors("actors");
 
-    public final NumberPath<Integer> actorId = createNumber("actorId", Integer.class);
+    public final QWorkers _super = new QWorkers(this);
+
+    //inherited
+    public final DateTimePath<java.util.Date> birth = _super.birth;
 
     public final NumberPath<Integer> height = createNumber("height", Integer.class);
 
     public final StringPath instagramId = createString("instagramId");
 
-    public final QWorkers worker;
+    //inherited
+    public final StringPath name = _super.name;
+
+    //inherited
+    public final NumberPath<Integer> workerId = _super.workerId;
 
     public QActors(String variable) {
-        this(Actors.class, forVariable(variable), INITS);
+        super(Actors.class, forVariable(variable));
     }
 
     public QActors(Path<? extends Actors> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QActors(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QActors(PathMetadata metadata, PathInits inits) {
-        this(Actors.class, metadata, inits);
-    }
-
-    public QActors(Class<? extends Actors> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.worker = inits.isInitialized("worker") ? new QWorkers(forProperty("worker")) : null;
+        super(Actors.class, metadata);
     }
 
 }

@@ -21,8 +21,6 @@ public class QWorkers extends EntityPathBase<Workers> {
 
     public final DateTimePath<java.util.Date> birth = createDateTime("birth", java.util.Date.class);
 
-    public final EnumPath<Dtype> dtype = createEnum("dtype", Dtype.class);
-
     public final StringPath name = createString("name");
 
     public final NumberPath<Integer> workerId = createNumber("workerId", Integer.class);

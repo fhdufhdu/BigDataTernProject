@@ -27,11 +27,7 @@ public class Screens {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MOVIE_ID", nullable = false)
-    private Movies movie;
-
-    @OneToOne
-    @JoinColumn(name="TICKET_ID", nullable = false)
-    private Tickets tickets;
+    private Movies screenMovie;
 
     @Embedded
     private Period period;

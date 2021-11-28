@@ -22,17 +22,13 @@ public class QScreens extends EntityPathBase<Screens> {
 
     public static final QScreens screens = new QScreens("screens");
 
-    public final DateTimePath<java.time.LocalDateTime> endTime = createDateTime("endTime", java.time.LocalDateTime.class);
-
-    public final QMovies movie;
+    public final QPeriod period;
 
     public final NumberPath<Integer> screenId = createNumber("screenId", Integer.class);
 
-    public final DateTimePath<java.time.LocalDateTime> startTime = createDateTime("startTime", java.time.LocalDateTime.class);
+    public final QMovies screenMovie;
 
     public final QTheaters theater;
-
-    public final QTickets tickets;
 
     public QScreens(String variable) {
         this(Screens.class, forVariable(variable), INITS);
@@ -52,9 +48,9 @@ public class QScreens extends EntityPathBase<Screens> {
 
     public QScreens(Class<? extends Screens> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.movie = inits.isInitialized("movie") ? new QMovies(forProperty("movie")) : null;
+        this.period = inits.isInitialized("period") ? new QPeriod(forProperty("period")) : null;
+        this.screenMovie = inits.isInitialized("screenMovie") ? new QMovies(forProperty("screenMovie")) : null;
         this.theater = inits.isInitialized("theater") ? new QTheaters(forProperty("theater")) : null;
-        this.tickets = inits.isInitialized("tickets") ? new QTickets(forProperty("tickets"), inits.get("tickets")) : null;
     }
 
 }

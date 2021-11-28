@@ -1,6 +1,5 @@
 package Entity;
 
-import com.querydsl.core.Tuple;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

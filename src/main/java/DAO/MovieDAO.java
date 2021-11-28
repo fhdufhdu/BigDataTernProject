@@ -1,4 +1,4 @@
-package MovieDAO;
+package DAO;
 
 import Entity.*;
 import com.querydsl.core.Tuple;
@@ -15,17 +15,7 @@ import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class MovieDAO {
-    static EntityManagerFactory emf;
-    EntityManager em;
-    EntityTransaction tx;
-
-    public MovieDAO() {
-        emf = EMFactory.getInstance();
-        em = emf.createEntityManager();
-        tx = em.getTransaction();
-    }
-
+public class MovieDAO extends DAO{
     public void showMovieWithWorkerId(int id) {
         try {
             tx.begin();
@@ -224,7 +214,7 @@ public class MovieDAO {
                         .from(qScreens)
                         .join(qScreens.screenMovie, qMovies).fetchJoin()
                         .join(qScreens.theater, qTheaters).fetchJoin()
-                        .join(qTheaters.seats, qSeats).where(qSeats.status.eq(Boolean.TRUE)).fetchJoin()
+                        .join(qTheaters.seats, qSeats).where(qSeats.status.eq(SeatStatus.사용가능)).fetchJoin()
                         .fetch();
 
                 for(Screens result: showInfo)
@@ -262,49 +252,49 @@ public class MovieDAO {
             Seats seats = new Seats();
             seats.setSeatRow("A");
             seats.setSeatColumn("1");
-            seats.setStatus(Boolean.TRUE);
+            seats.setStatus(SeatStatus.사용가능);
             seats.setTheater(theaters);
 
             Seats seats2 = new Seats();
             seats2.setSeatRow("A");
             seats2.setSeatColumn("2");
-            seats2.setStatus(Boolean.TRUE);
+            seats2.setStatus(SeatStatus.사용가능);
             seats2.setTheater(theaters);
 
             Seats seats3 = new Seats();
             seats3.setSeatRow("B");
             seats3.setSeatColumn("1");
-            seats3.setStatus(Boolean.TRUE);
+            seats3.setStatus(SeatStatus.사용가능);
             seats3.setTheater(theaters);
 
             Seats seats4 = new Seats();
             seats4.setSeatRow("B");
             seats4.setSeatColumn("2");
-            seats4.setStatus(Boolean.TRUE);
+            seats4.setStatus(SeatStatus.사용가능);
             seats4.setTheater(theaters);
 
             Seats seats5 = new Seats();
             seats5.setSeatRow("C");
             seats5.setSeatColumn("1");
-            seats5.setStatus(Boolean.TRUE);
+            seats5.setStatus(SeatStatus.사용가능);
             seats5.setTheater(theaters);
 
             Seats seats6 = new Seats();
             seats6.setSeatRow("C");
             seats6.setSeatColumn("2");
-            seats6.setStatus(Boolean.FALSE);
+            seats6.setStatus(SeatStatus.사용불가능);
             seats6.setTheater(theaters);
 
             Seats seats7 = new Seats();
             seats7.setSeatRow("D");
             seats7.setSeatColumn("1");
-            seats7.setStatus(Boolean.TRUE);
+            seats7.setStatus(SeatStatus.사용가능);
             seats7.setTheater(theaters);
 
             Seats seats8 = new Seats();
             seats8.setSeatRow("D");
             seats8.setSeatColumn("2");
-            seats8.setStatus(Boolean.FALSE);
+            seats8.setStatus(SeatStatus.사용불가능);
             seats8.setTheater(theaters);
 
             Period period = new Period();

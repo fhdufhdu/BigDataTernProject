@@ -1,13 +1,4 @@
-import Entity.Actors;
-import Entity.Directors;
-import MovieDAO.MovieDAO;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.sql.Date;
-import java.time.LocalDateTime;
+import DAO.MovieDAO;
 
 public class Test
 {

@@ -26,6 +26,6 @@ public class Users extends CMbaseEntity{
     private Integer age;
     @Embedded
     private Address address;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Tickets> tickets = new ArrayList<Tickets>();
 }

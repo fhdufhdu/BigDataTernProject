@@ -29,10 +29,6 @@ public class Screens {
     @JoinColumn(name="MOVIE_ID", nullable = false)
     private Movies screenMovie;
 
-    @OneToOne
-    @JoinColumn(name="TICKET_ID")
-    private Tickets tickets;
-
     @Embedded
     private Period period;
 

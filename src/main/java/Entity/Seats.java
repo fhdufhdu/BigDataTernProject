@@ -30,4 +30,9 @@ public class Seats {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="THEATER_ID", nullable = false)
     private Theaters theater;
+
+    public void setTheater(Theaters theater){
+        this.theater = theater;
+        theater.getSeats().add(this);
+    }
 }

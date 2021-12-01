@@ -1,15 +1,22 @@
-package DAO;
+package dao;
 
-import Entity.*;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import entity.*;
+
+import java.time.LocalDateTime;
 
 public class UserDAO extends DAO{
-    public Users getUser(Integer id){
+    public Users getUser(String name){
         Users users = null;
         try
         {
             tx.begin();
 
-            users = em.find(Users.class, id);
+            JPAQueryFactory query = new JPAQueryFactory(em);
+            QUsers qUsers = new QUsers("u");
+
+            users = query.selectFrom(qUsers)
+                    .where(qUsers.name.eq(name)).fetchOne();
 
             tx.commit();
         }
@@ -22,14 +29,16 @@ public class UserDAO extends DAO{
 
         return users;
     }
-    public void addUser(String name, Integer age, String city, String street, String zipCode){
-
+    public Users createUser(String name, Integer age, String city, String street, String zipCode){
+        Users user = null;
         try
         {
             tx.begin();
             Address address = new Address(city, street, zipCode);
-            Users user = new Users();
+            user = new Users();
             user.setName(name); user.setAge(age); user.setAddress(address);
+            user.setCreatedDate(LocalDateTime.now());
+            user.setModifiedDate(LocalDateTime.now());
 
             em.persist(user);
             em.flush();
@@ -42,17 +51,16 @@ public class UserDAO extends DAO{
             System.out.println(e.getMessage());
             tx.rollback();
         }
-
+        return user;
     }
 
-    public void modifedUser(Users user, String name, Integer age, String city, String street, String zipCode){
+    public void modifiedUser(Users user){
         try
         {
             tx.begin();
-            Address address = user.getAddress();
-            address.setCity(city); address.setStreet(street); address.setZipCode(zipCode);
-            user.setName(name); user.setAge(age); user.setAddress(address);
+            user.setModifiedDate(LocalDateTime.now());
 
+            em.persist(user);
             em.flush();
             tx.commit();
         }
@@ -64,11 +72,11 @@ public class UserDAO extends DAO{
         }
 
     }
+
     public void deleteUser(Users user){
         try
         {
             tx.begin();
-            em.persist(user);
             em.remove(user);
 
             em.flush();
@@ -80,5 +88,6 @@ public class UserDAO extends DAO{
             System.out.println(e.getMessage());
             tx.rollback();
         }
+
     }
 }

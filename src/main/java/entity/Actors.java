@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name="ACTORS")
 @AllArgsConstructor
 @NoArgsConstructor
-@DiscriminatorValue("Actor")
+@DiscriminatorValue("actor")
 //@PrimaryKeyJoinColumn(name ="WORKER_ID")
 public class Actors extends Workers{
     @Column(nullable = false)

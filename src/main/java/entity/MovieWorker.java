@@ -1,9 +1,11 @@
-package Entity;
+package entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 
@@ -16,6 +18,7 @@ import javax.persistence.*;
 
 public class MovieWorker {
     @Id
+    @Generated(GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="MOVIE_WORKER_ID")
     private Integer movieWorkerId;
@@ -24,7 +27,7 @@ public class MovieWorker {
     @Column(name ="ROLE_TYPE")
     private RoleType roleType;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MOVIE_ID", nullable = false)
     private Movies movieWorkerMovie;
 

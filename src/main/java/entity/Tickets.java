@@ -1,13 +1,15 @@
-package Entity;
+package entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,12 +19,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Tickets {
     @Id
+    @Generated(GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="TICKET_ID")
     private Integer ticketId;
 
-    @Column(name ="IS_CANCELED", nullable = false)
-    private Boolean isCanceled = false;
+    @Column(name ="STATUS", nullable = false)
+    @Enumerated
+    private TicketStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="SCREEN_ID", nullable = false)
@@ -33,7 +37,7 @@ public class Tickets {
     private Users user;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ScreenSeat> screenSeats = new ArrayList<>();
+    private Set<ScreenSeat> screenSeats = new LinkedHashSet<>();
 
     public void setUser(Users user) {
         if(this.user != null){
@@ -41,5 +45,13 @@ public class Tickets {
         }
         this.user = user;
         user.getTickets().add(this);
+    }
+
+    public void setScreen(Screens screen) {
+        if(this.screen != null){
+            this.screen.getTickets().remove(this);
+        }
+        this.screen = screen;
+        screen.getTickets().add(this);
     }
 }

@@ -1,22 +1,13 @@
 import dao.*;
 import entity.*;
-import lombok.NoArgsConstructor;
+import net.bytebuddy.asm.Advice;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-public class Test {
+public class InsertData {
     public static void main(String[] args) {
-        Test test = new Test();
-
-//        test.insertData(); // 사전데이터 삽입
-//        test.createUser(); // 1번 사용자 생성 , testUser
-//        test.modifiedUser(); // 2번 사용자 수정 , testUser -> testUser1
-    }
-
-    public void insertData(){
         MovieDAO movieDAO = new MovieDAO();
         WorkerDAO workerDAO = new WorkerDAO();
         TheaterDAO theaterDAO = new TheaterDAO();
@@ -113,105 +104,7 @@ public class Test {
         theaterDAO.close();
         userDAO.close();
         reservationDAO.close();
+
+        DAO.closeEmf();
     }
-
-
-//    //user 생성하고 반환
-//    public void createUser(){
-//        UserDAO dao = new UserDAO();
-//        Users testUser = dao.createUser("testUser", 30, "구미시", "대학로", "23012");
-//        dao.close();
-//    }
-//
-//    //수정된 user 객체를 받아서 db에 올림
-//    public void modifiedUser(){
-//        UserDAO dao = new UserDAO();
-//        Users testUser = dao.getUser("testUser");
-//        testUser.setName("testUser2");
-//        dao.modifiedUser(testUser);
-//        dao.close();
-//    }
-//
-//    public void showMovieWithWorker(int id){
-//        MovieDAO dao = new MovieDAO();
-//        System.out.println(dao.makeStringFromMovie(dao.findMovieWithWorker(dramaMovie.getMovieId())));
-//        dao.close();
-//    }
-//
-//    public void findMovieWithWorkerOpeningDateRunningTime(){
-//        MovieDAO dao = new MovieDAO();
-//        for (Movies movie : dao.findMovieWithWorkerOpeningDateRunningTime(horrorDirector.getName(), actor3.getName(), null)){
-//            System.out.println(dao.makeStringFromMovie(movie));
-//        }
-//        System.out.println("=====================================================================================");
-//        for (Movies movie : dao.findMovieWithWorkerOpeningDateRunningTime(null, null, Date.valueOf(LocalDate.of(2020, 1, 20)))){
-//            System.out.println(dao.makeStringFromMovie(movie));
-//        }
-//        dao.close();
-//    }
-//
-//    public void findMovieByPaging(){
-//        MovieDAO dao = new MovieDAO();
-//        System.out.println("=====================================================================================");
-//        for(int i = 1; i < 3; i++){
-//            System.out.println(i+"페이지");
-//            for (Movies movie: dao.findMovieByPaging(i)){
-//                System.out.println(dao.makeStringFromMovie(movie));
-//            }
-//            System.out.println("=====================================================================================");
-//        }
-//        dao.close();
-//    }
-//
-//    public void findScreen(){
-//        MovieDAO dao = new MovieDAO();
-//        for(Screens screen: dao.findScreen()){
-//            System.out.println(dao.makeStringFromScreen(screen));
-//        }
-//        dao.close();
-//    }
-//
-//    public void reservationWithError(){
-//        ReservationDAO dao = new ReservationDAO();
-//        dao.reservation(testUser.getUserId(), screen.getScreenId(), new int[][]{{2,1}, {2,2}});
-//        dao.reservation(testUser.getUserId(), screen.getScreenId(), new int[][]{{1,1}, {2,2}});
-//        dao.reservation(testUser.getUserId(), screen.getScreenId(), new int[][]{{2,2}, {2,6}});
-//        dao.close();
-//    }
-//
-//    public void reservation() {
-//        ReservationDAO dao = new ReservationDAO();
-//        tickets = dao.reservation(testUser.getUserId(), screen.getScreenId(), new int[][]{{2,2}, {2,3}});
-//        dao.close();
-//    }
-//
-//    public void cancelReservation(){
-//        ReservationDAO dao = new ReservationDAO();
-//        dao.cancelReservation(tickets.getTicketId()/*다른애도 수정되는거 보고싶으면 여기 수정*/);
-//        dao.close();
-//    }
-//
-//    public void getTicketsInfo(){
-//        ReservationDAO dao = new ReservationDAO();
-//        for(Tickets ticket: dao.getTicketsInfo(testUser/*다른 사용자 티켓도 보고싶으면 여기 하면댐*/)){
-//            System.out.println(dao.makeStringFromTicket(ticket));
-//        }
-//
-//        dao.close();
-//    }
-//
-//    public void getTicketInfo(){
-//        ReservationDAO dao = new ReservationDAO();
-//        System.out.println(dao.makeStringFromTicket(tickets));
-//
-//        dao.close();
-//    }
-//
-//    public void deleteUser(){
-//        UserDAO dao = new UserDAO();
-//        dao.deleteUser(testUser);
-//        dao.close();
-//    }
-
 }
-

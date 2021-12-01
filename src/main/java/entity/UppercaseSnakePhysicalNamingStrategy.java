@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;

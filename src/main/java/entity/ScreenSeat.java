@@ -1,9 +1,11 @@
-package Entity;
+package entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 
@@ -16,6 +18,7 @@ import javax.persistence.*;
 
 public class ScreenSeat {
     @Id
+    @Generated(GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="SCREEN_SEAT_ID")
     private Integer screenSeatId;

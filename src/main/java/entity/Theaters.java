@@ -1,13 +1,15 @@
-package Entity;
+package entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,13 +20,14 @@ import java.util.List;
 
 public class Theaters {
     @Id
+    @Generated(GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="THEATER_ID")
     private Integer theaterId;
     private String name;
     private String floor;
 
-    @OneToMany(mappedBy = "theater")
-    List<Seats> seats = new ArrayList<>();
+    @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY)
+    Set<Seats> seats = new LinkedHashSet<>();
 
 }
